@@ -1,0 +1,93 @@
+<template>
+	<div class="page">
+		<div class="navbar">
+			<div class="navbar-bg"></div>
+			<div class="navbar-inner sliding">
+				<div class="left">
+					<a href="#" class="link back">
+						<i class="icon f7-icons if-not-md">arrow_left</i>
+						<i class="icon material-icons if-md">arrow_back</i>
+					</a>
+				</div>
+				<div class="title">Specphones</div>
+				<div class="subnavbar">
+					<form data-search-container=".virtual-list-2" data-search-item="li" data-search-in=".item-title" class="searchbar searchbar-init">
+						<div class="searchbar-inner">
+							<div class="searchbar-input-wrap">
+								<input type="search" placeholder="Cari HP"/>
+								<i class="searchbar-icon"></i>
+								<span class="input-clear-button"></span>
+							</div>
+							<span class="searchbar-disable-button if-not-aurora">Batal</span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="searchbar-backdrop"></div>
+		<div class="page-content login-screen-content">
+			<div class="list simple-list searchbar-not-found">
+				<ul>
+					<li>HP tidak ditemukan</li>
+				</ul>
+			</div>
+			<div class="list virtual-list-2 media-list searchbar-found"></div>
+		</div>
+	</div>
+</template>
+<script>
+	export default {
+		mounted() {
+			var $this = this;
+			var app = this.$app;
+			var $$ = this.$$;
+			var id = this.$route.params.id;
+			root: this.$app;
+			cargarListaClinicas();
+
+			function cargarListaClinicas() {
+				var items = [];
+				var dataJSON = new Array();
+				app.request.get('http://api-mobilespecs.azharimm.tk/brands/'+id+'?limit=300', function (response,status) {
+					dataJSON = JSON.parse(response);
+					var tampil = dataJSON.data.phones;
+					for(var i = 0; i < tampil.length; i++) {
+						var semuadata = tampil[i];
+						var phone = semuadata.phone_name;
+						var phone_slug = semuadata.phone_name_slug;
+						var brand_slug = semuadata.brand_slug;
+						items.push({
+							title: phone,
+							subtitle: "Info Selengkapnya",
+							id: phone_slug,
+							subid: brand_slug
+						});
+					}
+					var virtualList = app.virtualList.create({
+						el: '.virtual-list-2',
+						items: items,
+						searchAll: function (query, items) {
+							var found = [];
+							for (var i = 0; i < items.length; i++) {
+								if (items[i].title.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
+							}
+							return found;
+						},
+						itemTemplate:
+						'<li>' +
+						'<a href="/phones-details/{{subid}}/{{id}}/" class="item-link item-content">' +
+						'<div class="item-inner">' +
+						'<div class="item-title-row">' +
+						'<div class="item-title">{{title}}</div>' +
+						'</div>' +
+						'<div class="item-subtitle">{{subtitle}}</div>' +
+						'</div>' +
+						'</a>' +
+						'</li>',
+						height: app.theme === 'ios' ? 63 : (app.theme === 'md' ? 73 : 46),
+					});
+				});
+			}
+		},
+	}
+</script>

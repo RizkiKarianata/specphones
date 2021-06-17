@@ -1,0 +1,89 @@
+<template>
+	<div class="page">
+		<div class="navbar">
+			<div class="navbar-bg"></div>
+			<div class="navbar-inner sliding">
+				<div class="left">
+					<a href="#" class="link back">
+						<i class="icon f7-icons if-not-md">arrow_left</i>
+						<i class="icon material-icons if-md">arrow_back</i>
+					</a>
+				</div>
+				<div class="title">Specphones</div>
+			</div>
+		</div>
+		<div class="page-content login-screen-content">
+			{{#if data}}
+			<div class="block" align="center" style="height: 200px;">
+				<img src="{{data.phone_img_url}}" alt="" class="img-fluid">
+			</div>
+			<div class="block" align="center">
+				<h2>{{data.phone_name}}</h2>
+				<p style="margin-top: -20px;">{{data.brand}}</p>
+			</div>
+			<div class="list">
+				<ul>
+					{{#each data.specifications}}
+					<li class="accordion-item"><a href="#" class="item-content item-link">
+						<div class="item-inner">
+							<div class="item-title">{{this.title}}</div>
+						</div></a>
+						<div class="accordion-item-content">
+							<div class="block">
+								<div class="list media-list no-chevron">
+									<ul>
+										{{#each this.specs}}
+										<li>
+											<a href="#" class="item-link item-content">
+												<div class="item-inner">
+													<div class="item-title-row">
+														<div class="item-title">{{key}}</div>
+													</div>
+													<div class="item-text">{{val}}</div>
+												</div>
+											</a>
+										</li>
+										{{/each}}
+									</ul>
+								</div>
+							</div>
+						</div>
+					</li>
+					{{/each}}
+				</ul>
+			</div>
+			{{else}}
+			{{/if}}
+		</div>
+	</div>
+</template>
+<script>
+	export default {
+		mounted() {
+			var $this = this;
+			var app = this.$app;
+			var $$ = this.$$;
+			var self = this;
+		},
+		on: {
+			pageInit: function () {
+				var self = this;
+				var $this = this;
+				var app = this.$app;
+				var $$ = this.$$;
+				var brands = this.$route.params.brands;
+				var phones = this.$route.params.phones;
+				var dataJSON = new Array();
+				var items = [];
+				app.request.get('http://api-mobilespecs.azharimm.tk/brands/'+brands+'/'+phones, (response) => {
+					dataJSON = JSON.parse(response);
+					var tampil = dataJSON.data;
+					console.log(tampil);
+					self.$setState({
+						data: tampil
+					});
+				});
+			},
+		},
+	}
+</script>
