@@ -1,11 +1,14 @@
-# CRUD Framework7
-Aplikasi CRUD Sederhana Berbasis Mobile yang menggunakan Framework7 berguna untuk teman - teman yang baru belajar mobile menggunakan Framework7
+# Specphones
+Aplikasi Specphones Berbasis Mobile menggunakan Framework7 merupakan aplikasi yang berguna untuk mengetahui info tentang spesifikasi handphone.
 
 # Usage
 * Install Node.js
-* Buka direktori Zodiak Weton di Command Prompt
+* Buka direktori Specphones di Command Prompt
 * Ketik npm start
 * Otomatis terbuka localhost:8080
+
+# App Image
+![Alt text](https://karianata.com/framework7/specphones_1.png)
 
 ## Framework7 CLI Options
 
@@ -105,6 +108,9 @@ framework7 assets --ui
 
 Love Framework7? Support project by donating or pledging on patreon:
 https://patreon.com/vladimirkharlampidi
+
+# Download Application
+* [Specphones via Mediafire](https://www.mediafire.com/file/ffteassmch3sapt/Specphones.apk/file)
 
 ## License
 MIT License 2020, Rizki Karianata.
